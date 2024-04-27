@@ -1,0 +1,108 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacilflix - Daftar Unduhan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("{% static 'background.png' %}");
+            background-size: cover;
+        }
+        .navbar {
+            padding: 10px 20px;
+        }
+        .navbar-brand {
+            font-weight: bolder;
+            font-size: x-large;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 50px;
+            padding-right: 50px;
+            margin-top: 50px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .film-item {
+            margin-bottom: 20px;
+        }
+        .film-item:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="navbar-brand">
+        <img src="{% static 'pacilflix.png' %}" style="width: 40px; height: auto;">
+        <a>PACILFLIX</a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">Daftar Unduhan</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'main:logout' %}" class="btn" style="width: 120px; height: 50px; font-size: large; font-weight: bold; background-color: red;">Logout</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="mb-4">Daftar Unduhan</h1>
+    
+    <!-- Tabel Film Unduhan -->
+    <table>
+        <thead>
+            <tr>
+                <th>Judul</th>
+                <th>Waktu Ditambahkan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>  
+        <tbody>
+            {% for film in data_unduhan %}
+            <tr class="film-item">
+                <td>{{ film.judul }}</td>
+                <td>{{ film.waktu_ditambahkan }}</td> 
+                <td><button class="btn btn-danger">Hapus</button></td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+        </tbody>
+    </table>
+    
+    <!-- Tambah Film Button>
+    <a href="#" class="btn btn-primary mt-3">Tambah Film</a>
+    <!Tambah Film Button -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
