@@ -60,3 +60,13 @@ def film_unduhan(request):
     ]
     # Render template dengan data favorit film
     return render(request, 'unduhan.html', {'data_unduhan': data_unduhan})
+
+def contributors(request):
+    # Data favorit film statis
+    data_contributors = [ #contoh
+        {"nama": "Film A", "tipe": "yega", "jenis":"hue","kewarganegaraan":"aabb"},
+        {"nama": "sug", "tipe": "yega", "jenis":"hue","kewarganegaraan":"aabb"},
+    ]
+    # Render template dengan data favorit film
+    return render(request, 'contributors.html', {'data_contributors': data_contributors})
+
