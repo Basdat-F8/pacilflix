@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.contrib.auth.models import AbstractBaseUser
 
 '''
 class daftar_favorit(models.Model):
@@ -12,3 +13,9 @@ class daftar_unduhan(models.Model):
     username = models.CharField(max_length=50) # fk pengguna.username
     timestamp = models.DateTimeField()
 '''
+
+class User(AbstractBaseUser):
+    username = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=50)
+    negara_asal = models.CharField(max_length=50, blank=False, null=False)
+    USERNAME_FIELD = 'username'

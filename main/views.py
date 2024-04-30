@@ -4,15 +4,22 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login, logout
 
+from main.models import User
+
 def show_main(request):
     return render(request, "main.html")
 
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        username = request.POST['username']
+        password2 = request.POST['password2']
+        negara_asal = request.POST['negara_asal']
         if form.is_valid():
+            user = User(username=username, password=password2, negara_asal=negara_asal)
+            user.save()
             form.save()
-            return redirect('main:login')
+            return redirect('authentication:login')
         else:
             print(form.errors)
             for field, errors in form.errors.items():
@@ -21,6 +28,7 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
+
 
 def login_user(request ):
     if request.method == 'POST':
