@@ -43,6 +43,7 @@
         }
         .nav-item {
             align-items: center;
+            
         }
     </style>
 </head>
@@ -50,9 +51,11 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="navbar-brand">
-        <img src="{% static 'pacilflix.png' %}" style="width: 40px; height: auto;">
-        <a>PACILFLIX</a>
+    <div>
+        <a class="navbar-brand" href="{% url 'main:show_main' %}">
+            <img src="{% static 'pacilflix.png' %}" style="width: 40px; height: auto;">
+            PACILFLIX
+        </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -71,10 +74,10 @@
                 <a class="nav-link" href="#">Daftar Kontributor</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Kelola Daftar Favorit</a>
+                <a class="nav-link" href="{% url 'main:favorit' %}">Kelola Daftar Favorit</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Kelola Daftar Unduhan</a>
+                <a class="nav-link" href="{% url 'main:unduhan' %}">Kelola Daftar Unduhan</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Kelola Langganan</a>
