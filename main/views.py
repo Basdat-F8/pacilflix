@@ -19,7 +19,7 @@ def register(request):
             user = User(username=username, password=password2, negara_asal=negara_asal)
             user.save()
             form.save()
-            return redirect('authentication:login')
+            return redirect('main:login')
         else:
             print(form.errors)
             for field, errors in form.errors.items():
