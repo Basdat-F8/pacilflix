@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacilflix</title>
+    <title>Pacilflix - Daftar Unduhan</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url("{% static 'background.png'%}");
+            background-image: url("{% static 'background.png' %}");
             background-size: cover;
         }
         .navbar {
             padding: 10px 20px;
-        }
-        .login-register-form {
-            text-align: center;
-            margin-top: 50px;
         }
         .navbar-brand {
             font-weight: bolder;
@@ -24,25 +20,34 @@
         .container {
             background-color: white;
             border-radius: 10px;
-            padding: 50px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 50px;
+            padding-right: 50px;
+            margin-top: 50px;
         }
-        .center-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .film-item {
+            margin-bottom: 20px;
+        }
+        .film-item:last-child {
+            margin-bottom: 0;
         }
         .btn {
-            text-align: center;
             line-height: 40px;
             border: 0px;
             color: white;
-        }
-        .error-message {
-            font-style: italic;
-            font-size: 12px;
-            text-align: center;
-            padding-top: 10px;
         }
     </style>
 </head>
@@ -50,9 +55,11 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="navbar-brand">
-        <img src="{% static 'pacilflix.png' %}" style="width: 40px; height: auto;">
-        <a>PACILFLIX</a>
+    <div>
+        <a class="navbar-brand" href="{% url 'main:show_main' %}">
+            <img src="{% static 'pacilflix.png' %}" style="width: 40px; height: auto;">
+            PACILFLIX
+        </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -60,21 +67,26 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="#">Trailer Tayangan</a>
+                <a class="nav-link" href="#">Daftar Tayangan</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'main:contributors' %}">Contributors</a>
+                <a class="nav-link" href="#">Daftar Kontributor</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'main:langganan' %}">Langganan</a>
+                <a class="nav-link" href="{% url 'main:favorit' %}">Kelola Daftar Favorit</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Navbar 4</a>
+                <a class="nav-link" href="{% url 'main:unduhan' %}">Kelola Daftar Unduhan</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Navbar 5</a>
+                <a class="nav-link" href="#">Kelola Langganan</a>
             </li>
+            <li class="nav-item">
+                <a href="{% url 'main:logout' %}" class="btn" style="width: 120px; height: 50px; font-size: large; font-weight: bold; background-color: red;">Logout</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
@@ -85,10 +97,10 @@
     </h1>
     <p class="text-align" style="padding-top: 20px;">Paket Langganan Aktif Anda:
     </p>
-    <div id="contributor_table">
+    <div id="active_table">
         <table>
         <tr>
-            <th>Name</th>
+            <th>Nama</th>
             <th>Harga</th>
             <th>Jenis</th>
             <th>Date Added</th>
@@ -97,12 +109,12 @@
         </tr>
         {% for active in data_packages %}
             <tr class="film-item">
-                <td>{{active.name}}</td>
-                <td>{{active.harga}}</td> 
-                <td>{{active.jenis}}</td>
-                <td>{{active.tanggal_ditambah}}</td>
-                <td>{{active.tanggal_mulai}}</td>
-                <td>{{active.tanggal_akhir}}</td>
+                <td>elliewatchlist786</td>
+                <td>159000</td> 
+                <td>basic</td>
+                <td>2023-06-20</td>
+                <td>2023-06-20</td>
+                <td>22-5-2025</td>
             </tr>
         {% endfor %}
     </table>
@@ -112,47 +124,55 @@
     <div id="contributor_table">
         <table>
         <tr>
-            <th>Name</th>
+            <th>Nama</th>
             <th>Harga</th>
-            <th>Jenis</th>
-            <th>Date Added</th>
-            <th>Tanggal Dimulai</th>
-            <th>Tanggal Akhir</th>
+            <th>Resolusi Layar</th>
+            <th>Dukungan Perangkat</th>
+            <th>Beli</th>
         </tr>
-        {% for active in data_packages %}
-            <tr class="film-item">
-                <td>{{active.name}}</td>
-                <td>{{active.harga}}</td> 
-                <td>{{active.jenis}}</td>
-                <td>{{active.tanggal_ditambah}}</td>
-                <td>{{active.tanggal_mulai}}</td>
-                <td>{{active.tanggal_akhir}}</td>
+            <tr>
+                <td>premium</td>
+                <td>269000</td> 
+                <td>1440 px</td>
+                <td>Login di 3 perangkat</td>
+                <td><button type="button" class="btn btn-primary">Beli</button></td>
             </tr>
-        {% endfor %}
+            <tr>
+                <td>standar</td>
+                <td>219000</td> 
+                <td>1080 px</td>
+                <td>Login di 5 perangkat</td>
+                <td><button type="button" class="btn btn-primary">Beli</button></td>
+            </tr>
+            <tr>
+                <td>basic</td>
+                <td>159000</td> 
+                <td>720 px</td>
+                <td>Login di 8 perangkat</td>
+                <td><button type="button" class="btn btn-primary">Beli</button></td>
+            </tr>
     </table>
     </div>
-    <p class="text-align" style="padding-top: 20px;">Paket Langganan Aktif Anda:
+    <p class="text-align" style="padding-top: 20px;">Riwayat Transaksi
     </p>
     <div id="contributor_table">
         <table>
         <tr>
-            <th>Name</th>
-            <th>Harga</th>
-            <th>Jenis</th>
-            <th>Date Added</th>
+            <th>Nama Paket</th>
             <th>Tanggal Dimulai</th>
             <th>Tanggal Akhir</th>
+            <th>Metode Pembayaran</th>
+            <th>Tanggal Pembayaran</th>
+            <th>Total Pembayaran</th>
         </tr>
-        {% for active in data_packages %}
             <tr class="film-item">
-                <td>{{active.name}}</td>
-                <td>{{active.harga}}</td> 
-                <td>{{active.jenis}}</td>
-                <td>{{active.tanggal_ditambah}}</td>
-                <td>{{film.tanggal_mulai}}</td>
-                <td>{{film.tanggal_akhir}}</td>
+                <td>basic</td>
+                <td>2023-06-20</td> 
+                <td>2024-06-20</td>
+                <td>e-wallet</td>
+                <td>20/06/2023 00:32:04</td>
+                <td>159000</td>
             </tr>
-        {% endfor %}
     </table>
     </div>
   </div>
