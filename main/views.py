@@ -4,20 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login, logout
 
-from main.models import User
-
 def show_main(request):
     return render(request, "main.html")
 
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        username = request.POST['username']
-        password2 = request.POST['password2']
-        negara_asal = request.POST['negara_asal']
         if form.is_valid():
-            user = User(username=username, password=password2, negara_asal=negara_asal)
-            user.save()
             form.save()
             return redirect('main:login')
         else:
@@ -28,7 +21,6 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
-
 
 def login_user(request ):
     if request.method == 'POST':
@@ -70,11 +62,8 @@ def film_unduhan(request):
     return render(request, 'unduhan.html', {'data_unduhan': data_unduhan})
 
 def contributors(request):
-    # Data favorit film statis
-    data_contributors = [ #contoh
-        {"nama": "Film A", "tipe": "yega", "jenis":"hue","kewarganegaraan":"aabb"},
-        {"nama": "sug", "tipe": "yega", "jenis":"hue","kewarganegaraan":"aabb"},
-    ]
-    # Render template dengan data favorit film
-    return render(request, 'contributors.html', {'data_contributors': data_contributors})
+    return render(request, 'contributors.html')
+
+def langganan(request):
+    return render(request, 'langganan.html')
 
