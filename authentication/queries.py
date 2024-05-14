@@ -17,7 +17,7 @@ def initialize_connection():
     )
 
 def login(username, password):
-    result = []
+    # result = []
     conn = initialize_connection()
     cur = conn.cursor()
     cur.execute(sql.SQL("""
@@ -25,11 +25,11 @@ def login(username, password):
         WHERE username = %s AND password = %s
     """), [username, password])
     
-    user_data = cur.fetchall()
-    result.append(user_data)
+    user = cur.fetchone()
+    # result.append(user_data)
 
     conn.close()
-    return result
+    return user
 
 def register(username, password, negara_asal):
     conn = initialize_connection()
