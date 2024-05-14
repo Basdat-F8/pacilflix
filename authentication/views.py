@@ -2,10 +2,12 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .queries import login, register
+from django.views.decorators.csrf import csrf_exempt
 import logging, psycopg2
 
 logger = logging.getLogger(__name__)
 
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -27,13 +29,14 @@ def login_user(request):
     context = {}
     return render(request, 'login.html', context)
 
-
+@csrf_exempt
 def logout_user(request):
     response = HttpResponseRedirect(reverse('main:show_main'))
     response.delete_cookie('username')
     response.delete_cookie('negara_asal')
     return response
 
+@csrf_exempt
 def register_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
