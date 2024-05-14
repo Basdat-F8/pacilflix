@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <!-- Search bar menggunakan Bootstrap -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sort by...
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" >Name</a>
+              <a class="dropdown-item" href="#">Type</a>
+              <a class="dropdown-item" href="#">Jenis</a>
+            </div>
+          </div>
+    <div id="contributor_table">
+        <table>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Jenis Kelamin</th>
+            <th>Kewarganegaraan</th>
+        </tr>
+            <tr>
+                <td>Adi Wijaya</td>
+                <td>Sutradara</td> 
+                <td>Laki-Laki</td>
+                <td>Indonesia</td>
+            </tr>
+    </table>
+    </div>
+  </div>
+
+<script>
+    async function refreshTable() {
+        document.getElementById("contributor_table").innerHTML = ""
+        const conts = await contributors()
+        let htmlString = `<tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Jenis</th>
+            <th>Date Added</th>
+        </tr>`
+            htmlString += `\n<tr>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.price}</td>
+                <td>${item.fields.description}</td>
+                <td>${item.fields.date_added}</td>
+            </tr>` 
+        document.getElementById("contributor_table").innerHTML = htmlString
+  }
+  async function refreshTableFilter() {
+    document.getElementById("contributor_table").innerHTML = ""
+    var titleSearch = $("#s_title").val()
+    const books = await contributors()
+    var data_filter = books.filter( element => element.fields.Title.toLowerCase().includes(titleSearch))
+    document.getElementById("contributor_table").innerHTML = ""
+        const conts = await contributors()
+        let htmlString = `<tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Jenis</th>
+            <th>Date Added</th>
+        </tr>`
+        products.forEach((item) => {
+            htmlString += `\n<tr>
+            <td>${item.fields.name}</td>
+            <td>${item.fields.price}</td>
+            <td>${item.fields.description}</td>
+            <td>${item.fields.date_added}</td>
+        </tr>` 
+        })
+        
+    document.getElementById("product_table").innerHTML = htmlString
+
+    document.getElementById("book_table").innerHTML = htmlString
+  }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

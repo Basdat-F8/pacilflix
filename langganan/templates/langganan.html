@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" text-align="center">Halaman Beli</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h1 style="padding-top: 20px;">HALAMAN BELI
+                    </h1>
+                    <p class="text-align" style="padding-top: 20px;">Informasi Paket yang Ingin Dibeli:
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Resolusi Layar</th>
+                            <th>Dukungan Perangkat</th>
+                        </tr>
+                            <tr>
+                                <td>premium</td>
+                                <td>269000</td> 
+                                <td>1440 px</td>
+                                <td>Login di 8 perangkat</td>
+                            </tr>
+                    </table>
+                    <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
+                    </p>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Bayar
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" > transfer bank</a>
+                          <a class="dropdown-item" href="#"> kartu kredit</a>
+                          <a class="dropdown-item" href="#">e-wallet</a>
+                        </div>
+                      </div>
+                    <button type="button" class="btn btn-primary">Bayar</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="container">
+    <h1 style="padding-top: 20px;">HALAMAN KELOLA LANGGANAN
+    </h1>
+    <p class="text-align" style="padding-top: 20px;">Paket Langganan Aktif Anda:
+    </p>
+    <div id="active_table">
+        <table>
+        <tr>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Jenis</th>
+            <th>Date Added</th>
+            <th>Tanggal Dimulai</th>
+            <th>Tanggal Akhir</th>
+        </tr>
+            <tr class="film-item">
+                <td>elliewatchlist786</td>
+                <td>159000</td> 
+                <td>basic</td>
+                <td>2023-06-20</td>
+                <td>2023-06-20</td>
+                <td>22-5-2025</td>
+            </tr>
+    </table>
+    </div>
+    <p class="text-align" style="padding-top: 20px;">Paket Langganan Aktif Anda:
+    </p>
+    <div id="contributor_table">
+        <table>
+        <tr>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Resolusi Layar</th>
+            <th>Dukungan Perangkat</th>
+            <th>Beli</th>
+        </tr>
+            <tr>
+                <td>premium</td>
+                <td>269000</td> 
+                <td>1440 px</td>
+                <td>Login di 8 perangkat</td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Beli</button></td>
+            </tr>
+            <tr>
+                <td>standar</td>
+                <td>219000</td> 
+                <td>1080 px</td>
+                <td>Login di 5 perangkat</td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Beli</button></td>
+            </tr>
+            <tr>
+                <td>basic</td>
+                <td>159000</td> 
+                <td>720 px</td>
+                <td>Login di 3 perangkat</td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Beli</button></td>
+            </tr>
+    </table>
+    </div>
+    <p class="text-align" style="padding-top: 20px;">Riwayat Transaksi
+    </p>
+    <div id="contributor_table">
+        <table>
+        <tr>
+            <th>Nama Paket</th>
+            <th>Tanggal Dimulai</th>
+            <th>Tanggal Akhir</th>
+            <th>Metode Pembayaran</th>
+            <th>Tanggal Pembayaran</th>
+            <th>Total Pembayaran</th>
+        </tr>
+            <tr class="film-item">
+                <td>basic</td>
+                <td>2023-06-20</td> 
+                <td>2024-06-20</td>
+                <td>e-wallet</td>
+                <td>20/06/2023 00:32:04</td>
+                <td>159000</td>
+            </tr>
+    </table>
+    </div>
+  </div>
+
+<script>
+    async function refreshTable() {
+        document.getElementById("contributor_table").innerHTML = ""
+        const conts = await contributors()
+        let htmlString = `<tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Jenis</th>
+            <th>Date Added</th>
+        </tr>`
+            htmlString += `\n<tr>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.price}</td>
+                <td>${item.fields.description}</td>
+                <td>${item.fields.date_added}</td>
+            </tr>` 
+        document.getElementById("contributor_table").innerHTML = htmlString
+  }
+  async function refreshTableFilter() {
+    document.getElementById("contributor_table").innerHTML = ""
+    var titleSearch = $("#s_title").val()
+    const books = await contributors()
+    var data_filter = books.filter( element => element.fields.Title.toLowerCase().includes(titleSearch))
+    document.getElementById("contributor_table").innerHTML = ""
+        const conts = await contributors()
+        let htmlString = `<tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Jenis</th>
+            <th>Date Added</th>
+        </tr>`
+        products.forEach((item) => {
+            htmlString += `\n<tr>
+            <td>${item.fields.name}</td>
+            <td>${item.fields.price}</td>
+            <td>${item.fields.description}</td>
+            <td>${item.fields.date_added}</td>
+        </tr>` 
+        })
+        
+    document.getElementById("product_table").innerHTML = htmlString
+
+    document.getElementById("book_table").innerHTML = htmlString
+  }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">Top 10 Minggu Ini</h1>
+
+        <div class="filter-btn">
+            <button class="btn btn-secondary" id="globalTop10Button">Global</button>
+            <button class="btn btn-outline-secondary" id="userCountryTop10Button">[Negara Pengguna]</button>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h3>Peringkat</h3>
+            </div>
+            <div class="col">
+                <h3>Judul</h3>
+            </div>
+            <div class="col">
+                <h3>Sinopsis</h3>
+            </div>
+            <div class="col">
+                <h3>Trailer</h3>
+            </div>
+            <div class="col">
+                <h3>Tanggal Rilis</h3>
+            </div>
+            <div class="col">
+                <h3>Jumlah Views</h3>
+            </div>
+            <div class="col">
+                <h3>Tayangan</h3>
+            </div>
+        </div>
+
+        <!-- Contoh Data -->
+        <div class="row">
+            <div class="col">
+                <p>1</p>
+            </div>
+            <div class="col">
+                <p>Data Judul</p>
+            </div>
+            <div class="col">
+                <p>Data Sinopsis</p>
+            </div>
+            <div class="col">
+                <p><a href="#">URL Trailer</a></p>
+            </div>
+            <div class="col">
+                <p>Data Tanggal Rilis</p>
+            </div>
+            <div class="col">
+                <p>Jumlah Views</p>
+            </div>
+            <div class="col">
+                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Film -->
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">Film</h1>
+
+        <div class="row">
+            <div class="col">
+                <h3>Judul</h3>
+            </div>
+            <div class="col">
+                <h3>Sinopsis</h3>
+            </div>
+            <div class="col">
+                <h3>Trailer</h3>
+            </div>
+            <div class="col">
+                <h3>Tanggal Rilis</h3>
+            </div>
+            <div class="col">
+                <h3>Tayangan</h3>
+            </div>
+        </div>
+
+        <!-- Contoh Data -->
+        <div class="row">
+            <div class="col">
+                <p>Data Judul</p>
+            </div>
+            <div class="col">
+                <p>Data Sinopsis</p>
+            </div>
+            <div class="col">
+                <p><a href="#">URL Trailer</a></p>
+            </div>
+            <div class="col">
+                <p>Data Tanggal Rilis</p>
+            </div>
+            <div class="col">
+                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Series -->
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">Series</h1>
+
+        <div class="row">
+            <div class="col">
+                <h3>Judul</h3>
+            </div>
+            <div class="col">
+                <h3>Sinopsis</h3>
+            </div>
+            <div class="col">
+                <h3>Trailer</h3>
+            </div>
+            <div class="col">
+                <h3>Tanggal Rilis</h3>
+            </div>
+            <div class="col">
+                <h3>Tayangan</h3>
+            </div>
+        </div>
+
+        <!-- Contoh Data -->
+        <div class="row">
+            <div class="col">
+                <p>Data Judul</p>
+            </div>
+            <div class="col">
+                <p>Data Sinopsis</p>
+            </div>
+            <div class="col">
+                <p><a href="#">URL Trailer</a></p>
+            </div>
+            <div class="col">
+                <p>Data Tanggal Rilis</p>
+            </div>
+            <div class="col">
+                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">HASIL PENCARIAN</h1>
+
+        <div class="row">
+            <div class="col">
+                <h3>Judul</h3>
+            </div>
+            <div class="col">
+                <h3>Sinopsis</h3>
+            </div>
+            <div class="col">
+                <h3>Trailer</h3>
+            </div>
+            <div class="col">
+                <h3>Tanggal Rilis</h3>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+
+        <!-- Contoh Data -->
+        <div class="row">
+            <div class="col">
+                <p>Data Judul</p>
+            </div>
+            <div class="col">
+                <p>Data Sinopsis</p>
+            </div>
+            <div class="col">
+                <p><a href="#">URL Trailer</a></p>
+            </div>
+            <div class="col">
+                <p>Data Tanggal Rilis</p>
+            </div>
+            <div class="col">
+                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

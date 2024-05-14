@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="back-btn">
+        <a href="#" class="btn btn-white">Kembali</a>
+    </div>
+
+    <div class="container-box">
+        <h1>Detail Episode</h1>
+        <div>
+            <h2>Judul: <span id="judul_episode">[Nama Episode]</span></h2>
+            <h3>Sub Judul: <span id="sub_judul">[Sub Judul Episode]</span></h3>
+            <button class="btn btn-primary" id="btn_tonton">Tonton</button>
+            <p>Episode Lainnya:</p>
+            <ul id="episode_lainnya">
+                <li><a href="#">[Link Episode 1]</a></li>
+                <!-- Tambahkan elemen li untuk setiap episode lainnya -->
+            </ul>
+            <p>Sinopsis Episode: <span id="sinopsis_episode">[Sinopsis Episode]</span></p>
+            <p>Durasi Episode: <span id="durasi_episode">[Durasi Episode]</span></p>
+            <p>URL Episode: <a href="#" id="url_episode">[Link Episode]</a></p>
+            <p>Tanggal Rilis Episode: <span id="tanggal_rilis_episode">[Tanggal Rilis Episode]</span></p>
+        </div>
+    </div>
+{% endblock %}

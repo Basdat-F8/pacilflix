@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Daftar Favorit</h1>
+    
+    <!-- Tabel Film Favorit -->
+    <table>
+        <thead>
+            <tr>
+                <th>Judul</th>
+                <th>Waktu Ditambahkan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>  
+        <tbody>
+            {% for film in data_favorit %}
+            <tr class="film-item">
+                <td>{{ film.judul }}</td>
+                <td>{{ film.waktu_ditambahkan }}</td> 
+                <td><button class="btn btn-danger">Hapus</button></td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+        </tbody>
+    </table>
+    
+    <!-- Tambah Film Button>
+    <a href="#" class="btn btn-primary mt-3">Tambah Film</a>
+    <!Tambah Film Button -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

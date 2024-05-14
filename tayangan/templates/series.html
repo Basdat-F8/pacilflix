@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Back Button -->
+    <div class="back-btn">
+        <a href="#" class="btn btn-white">Kembali</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-box">
+        <!-- Detail Series Content -->
+        <!-- Your existing HTML content here -->
+
+        <h1>Detail Series</h1>
+        <div>
+            <h2>Judul: <span id="judul_series">[Nama Series]</span></h2>
+            <p>Episode:</p>
+            <ul id="episode">
+                <li><a href="#">[Link Episode 1]</a></li>
+                <!-- Tambahkan elemen li untuk setiap episode -->
+            </ul>
+            <button class="btn btn-success" id="btn_unduh">Unduh Tayangan</button>
+            <button class="btn btn-warning" id="btn_favorit">Favorit</button>
+            <p>Total View: <span id="total_view">[Jumlah View]</span></p>
+            <p>Rating Rata-Rata: <span id="rating">[Rating]</span></p>
+            <p>Sinopsis: <span id="sinopsis">[Sinopsis Series]</span></p>
+            <p>Genre:</p>
+            <ul id="genre">
+                <li><span>[Genre 1]</span></li>
+                <!-- Tambahkan elemen li untuk setiap genre -->
+            </ul>
+            <p>Asal Negara: <span id="asal_negara">[Asal Negara]</span></p>
+            <p>Pemain:</p>
+            <ul id="pemain">
+                <li><span>[Nama Pemain 1]</span></li>
+                <!-- Tambahkan elemen li untuk setiap pemain -->
+            </ul>
+            <p>Penulis Skenario:</p>
+            <ul id="penulis_skenario">
+                <li><span>[Nama Penulis Skenario 1]</span></li>
+                <!-- Tambahkan elemen li untuk setiap penulis skenario -->
+            </ul>
+            <p>Sutradara: <span id="sutradara">[Nama Sutradara]</span></p>
+        </div>
+        <!-- Modal for Unduh Tayangan -->
+        <div class="modal fade" id="unduhModal" tabindex="-1" role="dialog" aria-labelledby="unduhModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="unduhModalLabel">Unduh Tayangan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Selamat! Anda telah berhasil mengunduh <span id="judulTayangan"></span> dan akan berlaku
+                            hingga [currenttime+7hari]. Cek informasi selengkapnya pada halaman daftar unduhan.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary">Menuju Daftar Unduhan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Tambah Daftar Favorit -->
+        <div class="modal fade" id="favoritModal" tabindex="-1" role="dialog" aria-labelledby="favoritModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="favoritModalLabel">Tambah Daftar Favorit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Judul Daftar Favorit:
+                            <select id="dropdownDaftarFavorit">
+                                <!-- Dropdown options -->
+                            </select>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary">Tambah</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-box">
+        <h2>Tambah Ulasan</h2>
+        <form id="formUlasan">
+            <div class="form-group">
+                <label for="deskripsiUlasan">Deskripsi Ulasan</label>
+                <input type="text" class="form-control" id="deskripsiUlasan" required>
+            </div>
+            <div class="form-group">
+                <label for="ratingUlasan">Rating</label>
+                <input type="number" class="form-control" id="ratingUlasan" min="1" max="5" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <h2>Ulasan Pengguna</h2>
+        <div id="ulasan">
+            <p>data_ulasan_terbaru_1</p>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle modals -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Unduh Tayangan Modal
+        document.getElementById('btn_unduh').addEventListener('click', function () {
+            var judulTayangan = document.getElementById('judul_series').innerText;
+            document.getElementById('judulTayangan').innerText = judulTayangan;
+            $('#unduhModal').modal('show');
+        });
+
+        // Tambah Daftar Favorit Modal
+        document.getElementById('btn_favorit').addEventListener('click', function () {
+            // Logic to populate dropdown options here
+            $('#favoritModal').modal('show');
+        });
+    </script>
+{% endblock %}
