@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .queries import login, register
-import logging
+import logging, psycopg2
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +19,8 @@ def login_user(request):
 
         logger.debug('User %s logged in successfully', username)
         response = HttpResponseRedirect(reverse('tayangan:tayangan'))
-        response.set_cookie('username', user[0]['username'])
-        response.set_cookie('negara_asal', user[0]['negara_asal'])
+        response.set_cookie('username', user[0][0][0])
+        response.set_cookie('negara_asal', user[0][0][2])
         logger.debug('Redirecting to %s', reverse('main:show_main'))
         return response
 
@@ -34,26 +34,19 @@ def logout_user(request):
     response.delete_cookie('negara_asal')
     return response
 
-
 def register_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         negara_asal = request.POST.get('negara_asal')
-        
-        registration_successful = register(username, password, negara_asal)
-        
-        if registration_successful:
-            return HttpResponseRedirect(reverse('authentication:login'))
-        else:
-            context = {'register_error': 'Registration failed'}
+
+        try:
+            registration_successful = register(username, password, negara_asal)
+            if registration_successful:
+                return HttpResponseRedirect(reverse('authentication:login'))
+        except psycopg2.errors.RaiseException as e:
+            context = {'register_error': str(e)}
             return render(request, 'register.html', context)
 
     context = {}
     return render(request, 'register.html', context)
-
-# dummy data pengguna
-users = [
-    {'username': 'user1', 'password': 'password1', 'negara_asal': 'Indonesia'},
-    {'username': 'user2', 'password': 'password2', 'negara_asal': 'Malaysia'},
-]

@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
-@login_required
 def langganan(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     return render(request, 'langganan.html')

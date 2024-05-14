@@ -1,28 +1,33 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 def trailer(request):
     return render(request, 'trailer.html')
 
-@login_required
 def tayangan(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     return render(request, 'tayangan.html')
 
-@login_required
 def halaman_film(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     return render(request, 'film.html')
 
-@login_required
 def halaman_series(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     return render(request, 'series.html')
 
-@login_required
 def halaman_episode(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     return render(request, 'episode.html')
 
 def pencarian_trailer(request):
     return render(request, 'pencarian_trailer.html')
 
-@login_required
 def pencarian_tayangan(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     return render(request, 'pencarian_tayangan.html')

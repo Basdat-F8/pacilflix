@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
-@login_required
 def film_favorit(request):
+    if 'username' not in request.COOKIES:
+        return redirect(reverse('authentication:login'))
     # Data favorit film statis
     data_favorit = [ #contoh
         {"judul": "Film A", "waktu_ditambahkan": "2024-04-27 14:30:00"},

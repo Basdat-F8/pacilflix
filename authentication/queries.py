@@ -1,19 +1,46 @@
-# dummy data blm setting database
-users = [
-    {'username': 'user1', 'password': 'password1', 'negara_asal': 'Indonesia'},
-    {'username': 'user2', 'password': 'password2', 'negara_asal': 'Malaysia'},
-]
+import psycopg2
+from psycopg2 import sql
+
+DB_NAME = 'postgres'
+DB_USER = 'postgres.jcktthwwciswkjbgaxgv'
+DB_PASS = 'FasilkomFlixF8'
+DB_HOST = 'aws-0-ap-southeast-1.pooler.supabase.com'
+DB_PORT = '5432'
+
+def initialize_connection():
+    return psycopg2.connect(
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        host=DB_HOST,
+        port=DB_PORT
+    )
 
 def login(username, password):
-    for user in users:
-        if user['username'] == username and user['password'] == password:
-            return [user]
-    return []
+    result = []
+    conn = initialize_connection()
+    cur = conn.cursor()
+    cur.execute(sql.SQL("""
+        SELECT * FROM pacilflix.pengguna
+        WHERE username = %s AND password = %s
+    """), [username, password])
+    
+    user_data = cur.fetchall()
+    result.append(user_data)
+
+    conn.close()
+    return result
 
 def register(username, password, negara_asal):
-    for user in users:
-        if user['username'] == username:
-            return False
-    new_user = {'username': username, 'password': password, 'negara_asal': negara_asal}
-    users.append(new_user)
-    return True
+    conn = initialize_connection()
+    cur = conn.cursor()
+    
+    try:
+        cur.execute(sql.SQL("INSERT INTO pacilflix.pengguna VALUES (%s, %s, %s)"), [username, password, negara_asal])
+        conn.commit()
+        conn.close()
+        return True
+    except Exception as e:
+        conn.rollback()
+        conn.close()
+        raise e
