@@ -5,7 +5,7 @@
     <h1 class="mb-4">Daftar Unduhan</h1>
     
     <!-- Tabel Film Unduhan -->
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Judul</th>
@@ -16,18 +16,13 @@
         <tbody>
             {% for film in data_unduhan %}
             <tr class="film-item">
-                <td>{{ film.judul }}</td>
-                <td>{{ film.waktu_ditambahkan }}</td> 
+                <td>{{ film.0 }}</td>
+                <td>{{ film.1 }}</td> 
                 <td><button class="btn btn-danger">Hapus</button></td> 
             </tr>
             {% endfor %}
         </tbody>
-        </tbody>
     </table>
-    
-    <!-- Tambah Film Button>
-    <a href="#" class="btn btn-primary mt-3">Tambah Film</a>
-    <!Tambah Film Button -->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
