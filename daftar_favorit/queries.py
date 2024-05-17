@@ -56,15 +56,41 @@ def fetch_favorite_details(username, tayangan_id):
         print(f"Error fetching favorite details: {e}")
         raise e
 
-def add_to_favorites(username, tayangan_id, favorite_list_name):
+def add_to_favorites(username, judul):
     conn = initialize_connection()
     cur = conn.cursor()
     try:
         query = """
-            INSERT INTO pacilflix.daftar_favorit (username, tayangan_id, timestamp, favorite_list_name)
-            VALUES (%s, %s, NOW(), %s);
+            INSERT INTO pacilflix.daftar_favorit (timestamp, username, judul)
+            VALUES (NOW(), %s, %s);
         """
-        cur.execute(query, [username, tayangan_id, favorite_list_name])
+        cur.execute(query, [username, judul])
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        conn.rollback()
+        conn.close()
+        print(f"Error adding to favorites: {e}")
+        raise e
+    
+def add_tayangan_to_favorite(tayangan_id, username, judul):
+    conn = initialize_connection()
+    cur = conn.cursor()
+    try:
+        timestamp = """
+            SELECT timestamp
+            FROM pacilflix.tayangan_memiliki_daftar_favorit
+            WHERE username = '%s' AND judul = '%s'
+            ORDER BY timestamp DESC
+            LIMIT 1;
+        """
+        cur.execute(timestamp, [username, judul])
+        timestamp = cur.fetchone()
+        query = """
+            INSERT INTO pacilflix.tayangan_memiliki_daftar_favorit
+            VALUES (%s, %s, %s);
+        """
+        cur.execute(query, [tayangan_id, timestamp, username])
         conn.commit()
         conn.close()
     except Exception as e:

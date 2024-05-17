@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .queries import fetch_favorites, fetch_favorite_details, add_to_favorites, create_new_favorite_list, fetch_favorite_lists, remove_from_favorites
+from .queries import fetch_favorites, fetch_favorite_details, add_to_favorites, create_new_favorite_list, fetch_favorite_lists, remove_from_favorites, add_tayangan_to_favorite
 from django.views.decorators.csrf import csrf_exempt
 
 def film_favorit(request):
@@ -35,7 +35,8 @@ def add_to_favorites_view(request):
         if not tayangan_id or not favorite_list_name:
             return redirect(reverse('daftar_favorit:film_favorit'))
         try:
-            add_to_favorites(username, tayangan_id, favorite_list_name)
+            add_to_favorites(username, favorite_list_name)
+            add_tayangan_to_favorite(tayangan_id, username, favorite_list_name)
         except Exception as e:
             print(f"Error adding to favorites: {e}")
         return redirect(reverse('daftar_favorit:film_favorit'))
