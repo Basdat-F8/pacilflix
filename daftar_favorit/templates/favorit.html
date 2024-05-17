@@ -5,7 +5,7 @@
     <h1 class="mb-4">Daftar Favorit</h1>
     
     <!-- Tabel Film Favorit -->
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Judul</th>
@@ -16,21 +16,22 @@
         <tbody>
             {% for film in data_favorit %}
             <tr class="film-item">
-                <td>{{ film.judul }}</td>
-                <td>{{ film.waktu_ditambahkan }}</td> 
-                <td><button class="btn btn-danger">Hapus</button></td> 
+                <td><a href="{% url 'daftar_favorit:favorite_details' film.0 %}">{{ film.0 }}</a></td>
+                <td>{{ film.1 }}</td> 
+                <td>
+                    <form method="post" action="{% url 'daftar_favorit:remove_from_favorites' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="tayangan_id" value="{{ film.0 }}">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </td> 
             </tr>
             {% endfor %}
         </tbody>
-        </tbody>
     </table>
-    
-    <!-- Tambah Film Button>
-    <a href="#" class="btn btn-primary mt-3">Tambah Film</a>
-    <!Tambah Film Button -->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock %}
