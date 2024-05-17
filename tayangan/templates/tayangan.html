@@ -81,24 +81,26 @@
             </div>
         </div>
 
+        {% for film in films %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ film.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ film.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ film.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ film.release_date_trailer }}</p>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+                <a href="/film/{{ film.id_film }}" class="btn btn-secondary">Halaman Tayangan</a>
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- Series -->
@@ -123,23 +125,25 @@
             </div>
         </div>
 
+        {% for seri in series %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ seri.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ seri.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ seri.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ seri.release_date_trailer }}</p>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+                <a href="/series/{{ seri.id_series }}" class="btn btn-secondary">Halaman Tayangan</a>
             </div>
         </div>
+        {% endfor %}
     </div>
 {% endblock %}

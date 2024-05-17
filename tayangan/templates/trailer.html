@@ -56,7 +56,6 @@
     <!-- Film -->
     <div class="container-box">
         <h1 class="mt-4 mb-4">Film</h1>
-
         <div class="row">
             <div class="col">
                 <h3>Judul</h3>
@@ -71,22 +70,24 @@
                 <h3>Tanggal Rilis</h3>
             </div>
         </div>
-
+        
+        {% for film in films %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ film.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ film.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ film.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ film.release_date_trailer }}</p>
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- Series -->
@@ -108,20 +109,22 @@
             </div>
         </div>
 
+        {% for seri in series %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ seri.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ seri.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ seri.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ seri.release_date_trailer }}</p>
             </div>
         </div>
+        {% endfor %}
     </div>
 {% endblock %}
