@@ -16,20 +16,24 @@ def initialize_connection():
         port=DB_PORT
     )
 
-def hapus_unduhan(username):
+def hapus_unduhan(username, judul, timestamp):
     conn = initialize_connection()
     cur = conn.cursor()
-
     try:
-        cur.execute(sql.SQL("""
+        query = """
             DELETE FROM pacilflix.tayangan_terunduh
-            WHERE timestamp <= NOW() - INTERVAL '1 day'
-            AND username = %s
-        """), [username])
+            USING pacilflix.tayangan
+            WHERE pacilflix.tayangan_terunduh.id_tayangan = pacilflix.tayangan.id
+            AND pacilflix.tayangan_terunduh.username = %s
+            AND pacilflix.tayangan.judul = %s
+            AND pacilflix.tayangan_terunduh.timestamp = %s
+            AND pacilflix.tayangan_terunduh.timestamp <= NOW() - INTERVAL '1 day'
+        """
+        cur.execute(query, [username, judul, timestamp])
         conn.commit()
-
     except Exception as e:
         conn.rollback()
+        print(f"Error deleting download: {e}")
         raise e
     finally:
         conn.close()
@@ -37,7 +41,6 @@ def hapus_unduhan(username):
 def fetch_unduhan(username):
     conn = initialize_connection()
     cur = conn.cursor()
-
     try:
         query = """
             SELECT t.judul, tt.timestamp
@@ -49,19 +52,8 @@ def fetch_unduhan(username):
         unduhan_list = cur.fetchall()
         conn.close()
         return unduhan_list
-
     except Exception as e:
         conn.rollback()
         conn.close()
         print(f"Error fetching data: {e}")
         raise e
-
-# # Test the fetch_unduhan function
-# if __name__ == "__main__":
-#     try:
-#         username = 'test_username'  # Replace with an actual username for testing
-#         unduhan_list = fetch_unduhan(username)
-#         for unduhan in unduhan_list:
-#             print(unduhan)
-#     except Exception as e:
-#         print(f"An error occurred: {e}")

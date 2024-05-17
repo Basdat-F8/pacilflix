@@ -18,17 +18,51 @@
             <tr class="film-item">
                 <td>{{ film.0 }}</td>
                 <td>{{ film.1 }}</td> 
-                <td><button class="btn btn-danger">Hapus</button></td> 
+                <td>
+                    <form method="post" action="{% url 'daftar_unduhan:hapus_unduhan' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="judul" value="{{ film.0 }}">
+                        <input type="hidden" name="timestamp" value="{{ film.1 }}">
+                        <input type="hidden" name="username" value="{{ request.session.username }}">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </td> 
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <!-- Tambah Film Button>
-    <a href="#" class="btn btn-primary mt-3">Tambah Film</a>
-    <!Tambah Film Button -->
 </div>
+
+<!-- Modal for deletion messages -->
+{% if messages %}
+    <div id="myModal" class="modal" style="display: block;">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+            <h2>Penghapusan Tayangan</h2>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            <button class="btn btn-secondary" onclick="document.getElementById('myModal').style.display='none'">Tutup Modal</button>
+        </div>
+    </div>
+{% endif %}
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}
