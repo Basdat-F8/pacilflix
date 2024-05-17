@@ -4,9 +4,30 @@
 <div class="container">
     <h1 class="mb-4">Detail Daftar Favorit</h1>
     <div>
-        <h2>Judul: {{ judul }}</h2>
-        <p>Sinopsis: {{ sinopsis }}</p>
-        <p>Waktu Ditambahkan: {{ waktu_ditambahkan }}</p>
+        <h2>Judul Daftar Favorit: {{ judul_favorit }}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Judul Tayangan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tayangan in favorite_list_details %}
+                <tr class="tayangan-item">
+                    <td>{{ tayangan.0 }}</td>
+                    <td>
+                        <form method="post" action="{% url 'daftar_favorit:remove_tayangan_from_favorite' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="judul_favorit" value="{{ judul_favorit }}">
+                            <input type="hidden" name="judul_tayangan" value="{{ tayangan.0 }}">
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 

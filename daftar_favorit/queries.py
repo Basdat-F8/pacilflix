@@ -21,10 +21,9 @@ def fetch_favorites(username):
     cur = conn.cursor()
     try:
         query = """
-            SELECT t.judul, d.timestamp
-            FROM pacilflix.daftar_favorit d
-            JOIN pacilflix.tayangan t ON d.judul = t.judul
-            WHERE d.username = %s;
+            SELECT judul, timestamp
+            FROM pacilflix.daftar_favorit
+            WHERE username = %s;
         """
         cur.execute(query, [username])
         favorites_list = cur.fetchall()
@@ -36,24 +35,25 @@ def fetch_favorites(username):
         print(f"Error fetching favorites: {e}")
         raise e
 
-def fetch_favorite_details(username, tayangan_id):
+def fetch_favorite_details(username, judul_favorit):
     conn = initialize_connection()
     cur = conn.cursor()
     try:
         query = """
-            SELECT t.judul, t.sinopsis, d.timestamp
-            FROM pacilflix.daftar_favorit d
-            JOIN pacilflix.tayangan t ON d.judul = t.judul
-            WHERE d.username = %s AND t.id = %s;
+            SELECT t.judul
+            FROM pacilflix.tayangan t
+            JOIN pacilflix.tayangan_memiliki_daftar_favorit tf ON t.id = tf.id_tayangan
+            JOIN pacilflix.daftar_favorit df ON tf.username = df.username
+            WHERE df.username = %s AND df.judul = %s;
         """
-        cur.execute(query, [username, tayangan_id])
-        favorite_details = cur.fetchone()
+        cur.execute(query, [username, judul_favorit])
+        favorite_list_details = cur.fetchall()
         conn.close()
-        return favorite_details
+        return favorite_list_details
     except Exception as e:
         conn.rollback()
         conn.close()
-        print(f"Error fetching favorite details: {e}")
+        print(f"Error fetching favorite list details: {e}")
         raise e
 
 def add_to_favorites(username, tayangan_id, favorite_list_name):
@@ -109,19 +109,45 @@ def fetch_favorite_lists(username):
         print(f"Error fetching favorite lists: {e}")
         raise e
 
-def remove_from_favorites(username, tayangan_id):
+def remove_from_favorites(username, judul):
     conn = initialize_connection()
     cur = conn.cursor()
     try:
         query = """
             DELETE FROM pacilflix.daftar_favorit
-            WHERE username = %s AND tayangan_id = %s;
+            WHERE username = %s AND judul = %s;
         """
-        cur.execute(query, [username, tayangan_id])
+        cur.execute(query, [username, judul])
         conn.commit()
         conn.close()
     except Exception as e:
         conn.rollback()
         conn.close()
         print(f"Error removing from favorites: {e}")
+        raise e
+
+def remove_tayangan_from_favorites(username, judul_favorit, judul_tayangan):
+    conn = initialize_connection()
+    cur = conn.cursor()
+    try:
+        query = """
+            DELETE FROM pacilflix.tayangan_memiliki_daftar_favorit
+            WHERE id_tayangan IN (
+                SELECT t.id
+                FROM pacilflix.tayangan t
+                WHERE t.judul = %s
+            )
+            AND id_daftar_favorit IN (
+                SELECT df.id
+                FROM pacilflix.daftar_favorit df
+                WHERE df.username = %s AND df.judul = %s
+            );
+        """
+        cur.execute(query, [judul_tayangan, username, judul_favorit])
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        conn.rollback()
+        conn.close()
+        print(f"Error removing tayangan from favorites: {e}")
         raise e

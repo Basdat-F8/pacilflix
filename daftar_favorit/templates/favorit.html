@@ -8,7 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Judul</th>
+                <th>Judul Favorit</th>
                 <th>Waktu Ditambahkan</th>
                 <th>Aksi</th>
             </tr>
@@ -21,7 +21,8 @@
                 <td>
                     <form method="post" action="{% url 'daftar_favorit:remove_from_favorites' %}">
                         {% csrf_token %}
-                        <input type="hidden" name="tayangan_id" value="{{ film.0 }}">
+                        <input type="hidden" name="judul" value="{{ film.0 }}">
+                        <input type="hidden" name="judul_favorit" value="{{ film.0 }}">
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
                 </td> 
