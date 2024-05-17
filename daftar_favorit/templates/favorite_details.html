@@ -2,15 +2,36 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <h1 class="mb-4">Detail Daftar Favorit</h1>
-    <div>
-        <h2>Judul: {{ judul }}</h2>
-        <p>Sinopsis: {{ sinopsis }}</p>
-        <p>Waktu Ditambahkan: {{ waktu_ditambahkan }}</p>
-    </div>
+    <h1 class="mb-4">{{nama_fav}}</h1>
+    
+    <!-- Tabel Film Favorit -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Judul Tayangan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>  
+        <tbody>
+            {% for film in data_favorit %}
+            <tr class="film-item">
+                <td><a href="{% url 'daftar_favorit:favorite_details_to_tayangan' film.0 %}">{{ film.0 }}</a></td>
+                <!-- <td>{{ film.1 }}</td>  -->
+                <td>
+                    <form method="post" action="{% url 'daftar_favorit:remove_from_list_favorites' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="tayangan_id" value="{{ film.1 }}">
+                        <input type="hidden" name="nama_fav" value="{{ nama_fav }}">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock %}
