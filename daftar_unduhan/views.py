@@ -10,20 +10,26 @@ logger = logging.getLogger(__name__)
 @csrf_exempt
 def hapus_unduhan_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.COOKIES.get('username')
+        tayangan_id = request.POST.get('tayangan_id')
         judul = request.POST.get('judul')
-        timestamp = request.POST.get('timestamp')
         messages = []
+        show_modal = False
 
-        if not username or not judul or not timestamp:
+        if not tayangan_id:
             messages.append('Username, Judul, and Timestamp are required.')
+            show_modal = True
         else:
             try:
-                hapus_unduhan(username, judul, timestamp)
+                hapus_unduhan(username, tayangan_id)
                 messages.append(f"Tayangan {judul} untuk {username} telah dihapus.")
             except Exception as e:
                 messages.append('GAGAL MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN\n\nTayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
-                return render(request, 'unduhan.html', {'messages': messages, 'show_modal': True})
+                show_modal = True
+
+        if show_modal:
+            data_unduhan = fetch_unduhan(username)
+            return render(request, 'unduhan.html', {'messages': messages, 'show_modal': show_modal, 'data_unduhan': data_unduhan})
 
         return redirect(reverse('daftar_unduhan:unduhan'))
 
