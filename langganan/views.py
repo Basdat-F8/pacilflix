@@ -15,6 +15,9 @@ def langganan(request):
     history=gethistory(username)
     history_list=[]
 
+    if not current:
+        current = [username, 0, '', '', '', '']
+
     current_data = {
         'username': current[0],
         'total': current[1],
@@ -44,6 +47,6 @@ def langganan(request):
     context = {
         'aktif':current_data,
         'paket': pack_list,
-        'riwayat':history,
+        'riwayat':history_list,
     }
     return render(request, 'langganan.html', context)

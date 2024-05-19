@@ -23,14 +23,15 @@ def getcurrent(username):
     cur.execute(sql.SQL("""
         SELECT username, CASE
         WHEN nama_paket LIKE '%premium%' THEN '269000'
-        WHEN nama_paket LIKE '%basic%' THEN '159000'
-        WHEN nama_paket LIKE '%standar%' THEN '219000'  
+        WHEN nama_paket ='basic' THEN '159000'
+        WHEN nama_paket ='standar' THEN '219000'  
     END AS total, nama_paket, timestamp_pembayaran, start_date_time, end_date_time 
-        FROM pacilflix.transaction
+        FROM pacilflix.transaction t1
         WHERE username = %s AND timestamp_pembayaran = (select max(tt1.timestamp_pembayaran) from pacilflix.transaction tt1 where tt1.username= t1.username);
     """), [username])
     
     current = cur.fetchone()
+    print(current)
     # result.append(user_data)
 
     conn.close()
@@ -65,8 +66,8 @@ def gethistory(username):
         SELECT nama_paket, start_date_time, end_date_time, metode_pembayaran, timestamp_pembayaran,
                         CASE
         WHEN nama_paket LIKE '%premium%' THEN '269000'
-        WHEN nama_paket LIKE '%basic%' THEN '159000'
-        WHEN nama_paket LIKE '%standar%' THEN '219000'  
+        WHEN nama_paket = 'basic' THEN '159000'
+        WHEN nama_paket = 'standar' THEN '219000'  
     END AS total,
         FROM pacilflix.transaction
         WHERE username = %s;
