@@ -2,26 +2,25 @@
 {% load static %}
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Daftar Favorit</h1>
+    <h1 class="mb-4">{{nama_fav}}</h1>
     
     <!-- Tabel Film Favorit -->
     <table class="table">
         <thead>
             <tr>
-                <th>Judul</th>
-                <th>Waktu Ditambahkan</th>
+                <th>Judul Tayangan</th>
                 <th>Aksi</th>
             </tr>
         </thead>  
         <tbody>
             {% for film in data_favorit %}
             <tr class="film-item">
-                <td><a href="{% url 'daftar_favorit:favorite_details' film.0 %}">{{ film.0 }}</a></td>
-                <td>{{ film.1 }}</td> 
+                <td>{{ film.0 }}</td>
                 <td>
-                    <form method="post" action="{% url 'daftar_favorit:remove_from_favorites' %}">
+                    <form method="post" action="{% url 'daftar_favorit:remove_from_list_favorites' %}">
                         {% csrf_token %}
-                        <input type="hidden" name="tayangan_id" value="{{ film.0 }}">
+                        <input type="hidden" name="tayangan_id" value="{{ film.1 }}">
+                        <input type="hidden" name="nama_fav" value="{{ nama_fav }}">
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
                 </td> 

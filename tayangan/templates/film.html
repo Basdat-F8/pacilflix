@@ -99,39 +99,62 @@
         </div>
     </div>
 </div>
-
-<!-- Modal for Tambah Daftar Favorit -->
-<div class="modal fade" id="favoritModal" tabindex="-1" role="dialog" aria-labelledby="favoritModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="favoritModalLabel">Tambah Daftar Favorit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Judul Daftar Favorit:
-                    <select id="dropdownDaftarFavorit">
-                        <!-- Dropdown options -->
-                    </select>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Tambah</button>
+    <!-- Modal for Tambah Daftar Favorit -->
+    <div class="modal fade" id="favoritModal" tabindex="-1" role="dialog" aria-labelledby="favoritModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="favoritModalLabel">Tambah Daftar Favorit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'daftar_favorit:add_to_favorites' %}">
+                        {% csrf_token %}
+                        <p>Judul Daftar Favorit:
+                            <select id="dropdownDaftarFavorit" name="favorite_list_name">
+                                {% for favorite_list in favorite_lists %}
+                                    <option value="{{ favorite_list.0 }}">{{ favorite_list.0 }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <input type="hidden" name="tayangan_id" value="[ID Tayangan]">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                        </div>
+                    </form>
+                    <form method="post" action="{% url 'daftar_favorit:create_favorite_list' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="newFavoriteListName">Nama Daftar Favorit Baru</label>
+                            <input type="text" class="form-control" id="newFavoriteListName" name="favorite_list_name" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Tambah Daftar Favorit Baru</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 </div>
 
-<!-- JavaScript to handle modals -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+document.getElementById('btn_favorit').addEventListener('click', function () {
+    $('#favoritModal').modal('show');
+});
+</script>
 
+
+    <!-- JavaScript to handle modals -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     document.getElementById('btn_unduh').addEventListener('click', function () {
         $('#unduhModal').modal('show');

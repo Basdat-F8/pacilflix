@@ -81,20 +81,43 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Judul Daftar Favorit:
-                            <select id="dropdownDaftarFavorit">
-                                <!-- Dropdown options -->
-                            </select>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="button" class="btn btn-primary">Tambah</button>
+                        <form method="post" action="{% url 'daftar_favorit:add_to_favorites' %}">
+                            {% csrf_token %}
+                            <p>Judul Daftar Favorit:
+                                <select id="dropdownDaftarFavorit" name="favorite_list_name">
+                                    {% for favorite_list in favorite_lists %}
+                                        <option value="{{ favorite_list.0 }}">{{ favorite_list.0 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <input type="hidden" name="tayangan_id" value="[ID Tayangan]">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                            </div>
+                        </form>
+                        <form method="post" action="{% url 'daftar_favorit:create_favorite_list' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="newFavoriteListName">Nama Daftar Favorit Baru</label>
+                                <input type="text" class="form-control" id="newFavoriteListName" name="favorite_list_name" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Tambah Daftar Favorit Baru</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+<script>
+document.getElementById('btn_favorit').addEventListener('click', function () {
+    $('#favoritModal').modal('show');
+});
+</script>
+
 
     <div class="container-box">
         <h2>Tambah Ulasan</h2>
