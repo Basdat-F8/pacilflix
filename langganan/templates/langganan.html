@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="premium" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -27,22 +27,116 @@
                                 <td>premium</td>
                                 <td>269000</td> 
                                 <td>1440 px</td>
-                                <td>Login di 8 perangkat</td>
+                                <td>Login di 8 perangkat,Streaming di semua perangkat pada satu waktu,Dukungan untuk HDR dan Dolby Atmos</td>
                             </tr>
                     </table>
                     <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
                     </p>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Bayar
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" > transfer bank</a>
-                          <a class="dropdown-item" href="#"> kartu kredit</a>
-                          <a class="dropdown-item" href="#">e-wallet</a>
-                        </div>
+                    <form id="formUlasan" method="POST" action="{% url 'langganan:premiumbuy' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                    <select class="form-control" id="pembayaran" name="pembayaran">
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E-Wallet">E-Wallet</option>
+                      </select>
                       </div>
-                    <button type="button" class="btn btn-primary">Bayar</button>
+                    <button type="submit" class="btn btn-primary">Bayar</button>
+                </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="standar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" text-align="center">Halaman Beli</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h1 style="padding-top: 20px;">HALAMAN BELI
+                    </h1>
+                    <p class="text-align" style="padding-top: 20px;">Informasi Paket yang Ingin Dibeli:
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Resolusi Layar</th>
+                            <th>Dukungan Perangkat</th>
+                        </tr>
+                            <tr>
+                                <td>standar</td>
+                                <td>219000</td> 
+                                <td>1080 px</td>
+                                <td>Login di 5 perangkat,Streaming di 3 perangkat pada satu waktu,Dapat dipakai di web, aplikasi, dan smart TV</td>
+                            </tr>
+                    </table>
+                    <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
+                    </p>
+                    <form id="formUlasan" method="POST" action="{% url 'langganan:standardbuy' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                    <select class="form-control" id="pembayaran" name="pembayaran">
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E-Wallet">E-Wallet</option>
+                      </select>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Bayar</button>
+                </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel" text-align="center">Halaman Beli</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h1 style="padding-top: 20px;">HALAMAN BELI
+                    </h1>
+                    <p class="text-align" style="padding-top: 20px;">Informasi Paket yang Ingin Dibeli:
+                    </p>
+                    <table>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th>Resolusi Layar</th>
+                            <th>Dukungan Perangkat</th>
+                        </tr>
+                            <tr>
+                                <td>basic</td>
+                                <td>159000</td> 
+                                <td>720 px</td>
+                                <td>Login di 3 perangkat,Streaming di satu perangkat pada satu waktu</td>
+                            </tr>
+                    </table>
+                    <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
+                    </p>
+                    <form id="formUlasan" method="POST" action="{% url 'langganan:basicbuy' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                    <select class="form-control" id="pembayaran" name="pembayaran">
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E-Wallet">E-Wallet</option>
+                      </select>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Bayar</button>
+                </form>
                 </div>
             </div>
           </div>
@@ -59,22 +153,22 @@
         <tr>
             <th>Nama</th>
             <th>Harga</th>
-            <th>Jenis</th>
-            <th>Date Added</th>
+            <th>Resolusi Layar</th>
+            <th>Dukungan Perangkat</th>
             <th>Tanggal Dimulai</th>
             <th>Tanggal Akhir</th>
         </tr>
             <tr class="film-item">
-                <td>elliewatchlist786</td>
-                <td>159000</td> 
-                <td>basic</td>
-                <td>2023-06-20</td>
-                <td>2023-06-20</td>
-                <td>22-5-2025</td>
+                <td>{{aktif.username}}</td>
+                <td>{{aktif.total}}</td> 
+                <td>{{aktif.resolusi_layar}}</td>
+                <td>{{aktif.dukungan_perangkat}}</td>
+                <td>{{aktif.start_date_time}}</td>
+                <td>{{aktif.end_date_time}}</td>
             </tr>
     </table>
     </div>
-    <p class="text-align" style="padding-top: 20px;">Paket Langganan Aktif Anda:
+    <p class="text-align" style="padding-top: 20px;">Paket Langganan:
     </p>
     <div id="contributor_table">
         <table>
@@ -85,27 +179,15 @@
             <th>Dukungan Perangkat</th>
             <th>Beli</th>
         </tr>
-            <tr>
-                <td>premium</td>
-                <td>269000</td> 
-                <td>1440 px</td>
-                <td>Login di 8 perangkat</td>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Beli</button></td>
-            </tr>
-            <tr>
-                <td>standar</td>
-                <td>219000</td> 
-                <td>1080 px</td>
-                <td>Login di 5 perangkat</td>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Beli</button></td>
-            </tr>
-            <tr>
-                <td>basic</td>
-                <td>159000</td> 
-                <td>720 px</td>
-                <td>Login di 3 perangkat</td>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Beli</button></td>
-            </tr>
+        {% for packages in paket %}
+        <tr>
+            <td>{{packages.nama}}</td>
+            <td>{{packages.harga}}</td> 
+            <td>{{packages.resolusi_layar}}</td>
+            <td>{{packages.dukungper}}</td>
+            <td><a role="button" class="btn btn-secondary" data-toggle="modal" data-target="#{{packages.nama}}">Beli</a></td>
+        </tr>
+        {%endfor%}
     </table>
     </div>
     <p class="text-align" style="padding-top: 20px;">Riwayat Transaksi
@@ -120,14 +202,16 @@
             <th>Tanggal Pembayaran</th>
             <th>Total Pembayaran</th>
         </tr>
+        {% for histories in riwayat %}
             <tr class="film-item">
-                <td>basic</td>
-                <td>2023-06-20</td> 
-                <td>2024-06-20</td>
-                <td>e-wallet</td>
-                <td>20/06/2023 00:32:04</td>
-                <td>159000</td>
+                <td>{{histories.nama_paket}}</td>
+                <td>{{histories.start_date_time}}</td> 
+                <td>{{histories.end_date_time}}</td>
+                <td>{{histories.metode_pembayaran}}</td>
+                <td>{{histories.timestamp_pembayaran}}</td>
+                <td>{{histories.total}}</td>
             </tr>
+        {%endfor%}
     </table>
     </div>
   </div>
@@ -181,4 +265,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 {% endblock %}
