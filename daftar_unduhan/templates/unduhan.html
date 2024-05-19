@@ -23,7 +23,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="judul" value="{{ film.0 }}">
                         <input type="hidden" name="timestamp" value="{{ film.1 }}">
-                        <input type="hidden" name="username" value="{{ request.session.username }}">
+                        <input type="hidden" name="tayangan_id" value="{{ film.2 }}">
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
                 </td> 
@@ -34,7 +34,7 @@
 </div>
 
 <!-- Modal for deletion messages -->
-{% if messages %}
+{% if show_modal %}
     <div id="myModal" class="modal" style="display: block;">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>

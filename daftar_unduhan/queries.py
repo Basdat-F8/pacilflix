@@ -16,20 +16,15 @@ def initialize_connection():
         port=DB_PORT
     )
 
-def hapus_unduhan(username, judul, timestamp):
+def hapus_unduhan(username, tayangan_id):
     conn = initialize_connection()
     cur = conn.cursor()
     try:
         query = """
             DELETE FROM pacilflix.tayangan_terunduh
-            USING pacilflix.tayangan
-            WHERE pacilflix.tayangan_terunduh.id_tayangan = pacilflix.tayangan.id
-            AND pacilflix.tayangan_terunduh.username = %s
-            AND pacilflix.tayangan.judul = %s
-            AND pacilflix.tayangan_terunduh.timestamp = %s
-            AND pacilflix.tayangan_terunduh.timestamp <= NOW() - INTERVAL '1 day'
+            WHERE username = %s AND id_tayangan =%s;
         """
-        cur.execute(query, [username, judul, timestamp])
+        cur.execute(query, [username, tayangan_id])
         conn.commit()
     except Exception as e:
         conn.rollback()
@@ -44,7 +39,7 @@ def fetch_unduhan(username):
     cur = conn.cursor()
     try:
         query = """
-            SELECT t.judul, tt.timestamp
+            SELECT t.judul, tt.timestamp, tt.id_tayangan
             FROM pacilflix.tayangan_terunduh tt
             JOIN pacilflix.tayangan t ON tt.id_tayangan = t.id
             WHERE tt.username = %s;
