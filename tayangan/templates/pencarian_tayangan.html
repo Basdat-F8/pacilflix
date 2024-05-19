@@ -2,7 +2,18 @@
 {% load static %}
 {% block content %}
     <div class="container-box">
-        <h1 class="mt-4 mb-4">HASIL PENCARIAN</h1>
+        <form method="GET" action="{% url 'tayangan:pencarian_tayangan' %}">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="back-btn">
+        <a href="/tayangan" class="btn btn-white">Kembali</a>
+    </div>
+
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">HASIL PENCARIAN '{{ query }}'</h1>
 
         <div class="row">
             <div class="col">
@@ -21,23 +32,29 @@
             </div>
         </div>
 
+        {% for r in result %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ r.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ r.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ r.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ r.release_date_trailer }}</p>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+                {% if r.type == 'film' %}
+                <a href="/film/{{ r.id_tayangan }}" class="btn btn-secondary">Halaman Tayangan</a>
+                {% else %}
+                <a href="/series/{{ r.id_tayangan }}" class="btn btn-secondary">Halaman Tayangan</a>
+                {% endif %}
             </div>
         </div>
+        {% endfor %}
     </div>
 {% endblock %}

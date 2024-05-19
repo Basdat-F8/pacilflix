@@ -2,12 +2,14 @@
 {% load static %}
 {% block content %}
     <div class="container-box">
-        <h1 class="mt-4 mb-4">Top 10 Minggu Ini</h1>
+        <form method="GET" action="{% url 'tayangan:pencarian_trailer' %}">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
-        <div class="filter-btn">
-            <button class="btn btn-secondary" id="globalTop10Button">Global</button>
-            <button class="btn btn-outline-secondary" id="userCountryTop10Button">[Negara Pengguna]</button>
-        </div>
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">Top 10 Minggu Ini</h1>
 
         <div class="row">
             <div class="col">
@@ -30,33 +32,34 @@
             </div>
         </div>
 
+        {% for top in top_ten %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>1</p>
+                <p>{{ forloop.counter }}</p> 
             </div>
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ top.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ top.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ top.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ top.release_date_trailer}}</p>
             </div>
             <div class="col">
-                <p>Jumlah Views</p>
+                <p>{{ top.jumlah_view }}</p>
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- Film -->
     <div class="container-box">
         <h1 class="mt-4 mb-4">Film</h1>
-
         <div class="row">
             <div class="col">
                 <h3>Judul</h3>
@@ -71,22 +74,24 @@
                 <h3>Tanggal Rilis</h3>
             </div>
         </div>
-
+        
+        {% for film in films %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ film.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ film.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ film.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ film.release_date_trailer }}</p>
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- Series -->
@@ -108,20 +113,22 @@
             </div>
         </div>
 
+        {% for seri in series %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ seri.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ seri.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ seri.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ seri.release_date_trailer }}</p>
             </div>
         </div>
+        {% endfor %}
     </div>
 {% endblock %}
