@@ -15,7 +15,7 @@ def langganan(request):
         current = ["-", 0, '-', '-', '-', '-']
     packs = getpacks()
     pack_list = []
-    
+    user_history=[]
     history=gethistory(username)
     
 
@@ -45,11 +45,16 @@ def langganan(request):
             'end_date_time': histories[2],
             'metode_pembayaran': histories[3],
             'timestamp_pembayaran': histories[4],
-            'total': histories[5]
+            'total': histories[5],
+            'owner':username
         })
         if newhistory not in history_list:
             history_list.append(newhistory)
 
+    for allhistory in history_list:
+        if username==allhistory['owner']:
+            user_history.append(allhistory)
+            
     context = {
         'aktif':current_data,
         'paket': pack_list,
