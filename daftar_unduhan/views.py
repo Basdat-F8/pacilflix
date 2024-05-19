@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .queries import hapus_unduhan, fetch_unduhan
+from .queries import hapus_unduhan, fetch_unduhan, tambah_unduhan
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 import logging
 logger = logging.getLogger(__name__)
@@ -13,16 +15,29 @@ def hapus_unduhan_view(request):
         username = request.COOKIES.get('username')
         tayangan_id = request.POST.get('tayangan_id')
         judul = request.POST.get('judul')
+        timestamp = request.POST.get('timestamp')
         messages = []
         show_modal = False
 
-        if not tayangan_id:
+        print(f"Received timestamp: {timestamp}")
+
+        if not username or not tayangan_id or not judul or not timestamp:
             messages.append('Username, Judul, and Timestamp are required.')
             show_modal = True
         else:
             try:
-                hapus_unduhan(username, tayangan_id)
-                messages.append(f"Tayangan {judul} untuk {username} telah dihapus.")
+                added_time = datetime.strptime(timestamp, "%B %d, %Y, %I:%M %p")
+                added_time = timezone.make_aware(added_time, timezone.get_current_timezone())
+                current_time = timezone.now()
+
+                print(f"Current time: {current_time}, Added time: {added_time}")
+
+                if current_time - added_time > timedelta(days=1):
+                    hapus_unduhan(username, tayangan_id)
+                    return redirect(reverse('daftar_unduhan:unduhan'))
+                else:
+                    messages.append('GAGAL MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN\n\nTayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
+                    show_modal = True
             except Exception as e:
                 messages.append('GAGAL MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN\n\nTayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
                 show_modal = True
@@ -44,3 +59,18 @@ def film_unduhan(request):
     data_unduhan = fetch_unduhan(username)
     context = {'data_unduhan': data_unduhan}
     return render(request, 'unduhan.html', context)
+
+@csrf_exempt
+def add_unduhan(request):
+    if request.method == 'POST':
+        username = request.COOKIES.get('username')
+        tayangan_id = request.POST.get('id_tayangan')
+
+        try:
+            tambah_unduhan(username, tayangan_id)
+            return redirect(reverse('daftar_unduhan:show_daftar_unduhan'))
+        except Exception as e:
+            # Handle error accordingly
+            print(f"Error: {e}")
+            return render(request, 'error_page.html', {'error': str(e)})
+    return redirect(reverse('daftar_unduhan:show_daftar_unduhan'))

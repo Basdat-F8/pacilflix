@@ -53,3 +53,21 @@ def fetch_unduhan(username):
         conn.close()
         print(f"Error fetching data: {e}")
         raise e
+
+def tambah_unduhan(username, tayangan_id):
+    conn = initialize_connection()
+    cur = conn.cursor()
+    try:
+        query = """
+            INSERT INTO pacilflix.tayangan_terunduh(id_tayangan, username, timestamp)
+            VALUES (%s, %s, NOW());
+        """
+        cur.execute(query, [tayangan_id, username])
+        unduhan_list = cur.fetchall()
+        conn.close()
+        return unduhan_list
+    except Exception as e:
+        conn.rollback()
+        conn.close()
+        print(f"Error fetching data: {e}")
+        raise e
