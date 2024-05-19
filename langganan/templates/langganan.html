@@ -27,18 +27,22 @@
                                 <td>premium</td>
                                 <td>269000</td> 
                                 <td>1440 px</td>
-                                <td>	Login di 8 perangkat,Streaming di semua perangkat pada satu waktu,Dukungan untuk HDR dan Dolby Atmos</td>
+                                <td>Login di 8 perangkat,Streaming di semua perangkat pada satu waktu,Dukungan untuk HDR dan Dolby Atmos</td>
                             </tr>
                     </table>
                     <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
                     </p>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Bayar dengan...</option>
-                        <option value="1">Transfer Bank</option>
-                        <option value="2">Kartu Kredit</option>
-                        <option value="3">E-Wallet</option>
+                    <form id="formUlasan" method="POST" action="{% url 'langganan:premiumbuy' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                    <select class="form-control" id="pembayaran" name="pembayaran">
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E-Wallet">E-Wallet</option>
                       </select>
-                    <button type="button" class="btn btn-primary">Bayar</button>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Bayar</button>
+                </form>
                 </div>
             </div>
           </div>
@@ -75,13 +79,17 @@
                     </table>
                     <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
                     </p>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Bayar dengan...</option>
-                        <option value="1">Transfer Bank</option>
-                        <option value="2">Kartu Kredit</option>
-                        <option value="3">E-Wallet</option>
+                    <form id="formUlasan" method="POST" action="{% url 'langganan:standardbuy' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                    <select class="form-control" id="pembayaran" name="pembayaran">
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E-Wallet">E-Wallet</option>
                       </select>
-                    <button type="button" class="btn btn-primary">Bayar</button>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Bayar</button>
+                </form>
                 </div>
             </div>
           </div>
@@ -118,13 +126,17 @@
                     </table>
                     <p class="text-align" style="padding-top: 20px;">Pilih Metode Pembayaran:
                     </p>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Bayar dengan...</option>
-                        <option value="1">Transfer Bank</option>
-                        <option value="2">Kartu Kredit</option>
-                        <option value="3">E-Wallet</option>
+                    <form id="formUlasan" method="POST" action="{% url 'langganan:basicbuy' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                    <select class="form-control" id="pembayaran" name="pembayaran">
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E-Wallet">E-Wallet</option>
                       </select>
-                    <button type="button" class="btn btn-primary">Bayar</button>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Bayar</button>
+                </form>
                 </div>
             </div>
           </div>
@@ -141,16 +153,16 @@
         <tr>
             <th>Nama</th>
             <th>Harga</th>
-            <th>Jenis</th>
-            <th>Date Added</th>
+            <th>Resolusi Layar</th>
+            <th>Dukungan Perangkat</th>
             <th>Tanggal Dimulai</th>
             <th>Tanggal Akhir</th>
         </tr>
             <tr class="film-item">
                 <td>{{aktif.username}}</td>
                 <td>{{aktif.total}}</td> 
-                <td>{{aktif.nama_paket}}</td>
-                <td>{{aktif.start_date_time}}</td>
+                <td>{{aktif.resolusi_layar}}</td>
+                <td>{{aktif.dukungan_perangkat}}</td>
                 <td>{{aktif.start_date_time}}</td>
                 <td>{{aktif.end_date_time}}</td>
             </tr>

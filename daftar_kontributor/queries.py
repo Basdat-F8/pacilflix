@@ -21,35 +21,53 @@ def contributors():
     conn = initialize_connection()
     cur = conn.cursor()
     cur.execute(sql.SQL("""
-        SELECT 
-    nama,
-    CASE            
-        WHEN id IN (SELECT id FROM pacilflix.penulis_skenario) THEN 'Penulis Skenario'
-        WHEN id IN (SELECT id FROM pacilflix.sutradara) THEN 'Sutradara'
-        WHEN id IN (SELECT id FROM pacilflix.pemain) THEN 'Pemain' 
-        WHEN id IN (SELECT id FROM (
-            select id  from pacilflix.penulis_skenario
-            union all
-            select id from pacilflix.sutradara
-        ) ps) THEN 'Penulis Skenario, Sutradara'
-        WHEN id IN (SELECT id FROM (
-            select id  from pacilflix.sutradara
-            union all
-            select id from pacilflix.pemain
-        ) sp) THEN 'Sutradara, Pemain'
-        WHEN id IN (SELECT id FROM (
-            select id  from pacilflix.pemain 
-            union all
-            select id from pacilflix.penulis_skenario
-        ) pp) THEN 'Pemain, Penulis Skenario'     
-    END AS type,
+    SELECT nama,
+       CASE
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  WHERE t3.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Penulis Skenario, Pemain'
+           
+           WHEN t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t3.id
+                                  FROM pacilflix.sutradara t3
+                                  LEFT JOIN pacilflix.pemain t4 ON t3.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Sutradara, Pemain'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t3.id IS NULL OR t4.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara, Pemain'
+           WHEN id IN (SELECT id FROM pacilflix.penulis_skenario) THEN 'Penulis Skenario'
+            WHEN id IN (SELECT id FROM pacilflix.sutradara) THEN 'Sutradara'
+            WHEN id IN (SELECT id FROM pacilflix.pemain) THEN 'Pemain' 
+           ELSE 'Tidak ada Role'
+       END AS type,
     CASE
         WHEN jenis_kelamin=0 THEN 'Laki-Laki'
         WHEN jenis_kelamin=1 THEN 'Perempuan'
     END AS jenis_kelamin,
     kewarganegaraan
     FROM 
-    pacilflix.contributors;
+    pacilflix.contributors t1;
     """))
     
     list = cur.fetchall()
@@ -65,14 +83,52 @@ def sutradara():
     cur.execute(sql.SQL("""
         SELECT 
     nama,
-    'Sutradara' AS type,
+    CASE
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  WHERE t3.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Penulis Skenario, Pemain'
+           
+           WHEN t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t3.id
+                                  FROM pacilflix.sutradara t3
+                                  LEFT JOIN pacilflix.pemain t4 ON t3.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Sutradara, Pemain'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t3.id IS NULL OR t4.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara, Pemain'
+           WHEN id IN (SELECT id FROM pacilflix.penulis_skenario) THEN 'Penulis Skenario'
+            WHEN id IN (SELECT id FROM pacilflix.sutradara) THEN 'Sutradara'
+            WHEN id IN (SELECT id FROM pacilflix.pemain) THEN 'Pemain' 
+           ELSE 'Tidak ada Role'
+       END AS type,
     CASE
         WHEN jenis_kelamin=0 THEN 'Laki-Laki'
         WHEN jenis_kelamin=1 THEN 'Perempuan'
     END AS jenis_kelamin,
     kewarganegaraan
     FROM 
-    pacilflix.contributors
+    pacilflix.contributors t1
     WHERE id IN (SELECT id FROM pacilflix.sutradara);
     """))
     
@@ -89,14 +145,52 @@ def pemain():
     cur.execute(sql.SQL("""
         SELECT 
     nama,
-    'Pemain' AS type,
+    CASE
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  WHERE t3.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Penulis Skenario, Pemain'
+           
+           WHEN t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t3.id
+                                  FROM pacilflix.sutradara t3
+                                  LEFT JOIN pacilflix.pemain t4 ON t3.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Sutradara, Pemain'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t3.id IS NULL OR t4.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara, Pemain'
+           WHEN id IN (SELECT id FROM pacilflix.penulis_skenario) THEN 'Penulis Skenario'
+            WHEN id IN (SELECT id FROM pacilflix.sutradara) THEN 'Sutradara'
+            WHEN id IN (SELECT id FROM pacilflix.pemain) THEN 'Pemain' 
+           ELSE 'Tidak ada Role'
+       END AS type,
     CASE
         WHEN jenis_kelamin=0 THEN 'Laki-Laki'
         WHEN jenis_kelamin=1 THEN 'Perempuan'
     END AS jenis_kelamin,
     kewarganegaraan
     FROM 
-    pacilflix.contributors
+    pacilflix.contributors t1
     WHERE id IN (SELECT id FROM pacilflix.pemain);
     """))
     
@@ -113,13 +207,51 @@ def penulis():
     cur.execute(sql.SQL("""
         SELECT 
     nama,
-    'Penulis Skenario' AS type,
+    CASE
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  WHERE t3.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Penulis Skenario, Pemain'
+           
+           WHEN t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t3.id
+                                  FROM pacilflix.sutradara t3
+                                  LEFT JOIN pacilflix.pemain t4 ON t3.id = t4.id
+                                  WHERE t4.id IS NULL)
+           THEN 'Sutradara, Pemain'
+           
+           WHEN t1.id IN (SELECT t2.id FROM pacilflix.penulis_skenario t2)
+                AND t1.id IN (SELECT t3.id FROM pacilflix.sutradara t3)
+                AND t1.id IN (SELECT t4.id FROM pacilflix.pemain t4)
+                AND t1.id NOT IN (SELECT t2.id
+                                  FROM pacilflix.penulis_skenario t2
+                                  LEFT JOIN pacilflix.sutradara t3 ON t2.id = t3.id
+                                  LEFT JOIN pacilflix.pemain t4 ON t2.id = t4.id
+                                  WHERE t3.id IS NULL OR t4.id IS NULL)
+           THEN 'Penulis Skenario, Sutradara, Pemain'
+           WHEN id IN (SELECT id FROM pacilflix.penulis_skenario) THEN 'Penulis Skenario'
+            WHEN id IN (SELECT id FROM pacilflix.sutradara) THEN 'Sutradara'
+            WHEN id IN (SELECT id FROM pacilflix.pemain) THEN 'Pemain' 
+           ELSE 'Tidak ada Role'
+       END AS type,
     CASE
         WHEN jenis_kelamin=0 THEN 'Laki-Laki'
         WHEN jenis_kelamin=1 THEN 'Perempuan'
     END AS jenis_kelamin,
     kewarganegaraan
-    FROM pacilflix.contributors
+    FROM pacilflix.contributors t1
     WHERE id IN (SELECT id FROM pacilflix.penulis_skenario);
     """))
     
