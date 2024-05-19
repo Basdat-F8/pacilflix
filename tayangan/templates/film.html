@@ -10,10 +10,18 @@
     <h1>Detail Film</h1>
     <div>
         <h2>Judul: <span id="judul_film">{{ film.judul }}</span></h2>
-        <button class="btn btn-primary" id="btn_tonton">Tonton</button>
+
+        <form method="post">
+            {% csrf_token %}
+            <input class="slider" type="range" name="videoMinute" id="minuteSlider" min="0" max="100" step="1" value="0" oninput="this.nextElementSibling.value = this.value">
+            <output>0</output><br>
+    
+            <button type="submit" name="set_video_minute" class="btn btn-primary" id="btn_tonton">Tonton</button>
+        </form>
+
         <button class="btn btn-success" id="btn_unduh">Unduh Tayangan</button>
         <button class="btn btn-warning" id="btn_favorit">Favorit</button>
-        <p>Total View: <span id="total_view">[Jumlah View]</span></p>
+        <p>Total View: <span id="total_view">{{ film.total_viewers }}</span></p>
         <p>Rating Rata-Rata: <span id="rating">{{ film.rating_avg }}</span></p>
         <p>Sinopsis: <span id="sinopsis">{{ film.sinopsis }}</span></p>
         <p>Durasi Film: <span id="durasi">{{ film.durasi_film }} menit</span></p>

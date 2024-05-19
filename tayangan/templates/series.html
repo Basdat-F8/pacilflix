@@ -10,15 +10,16 @@
     <div class="container-box">
         <h1>Detail Series</h1>
         <div>
-            <h2>Judul: <span id="judul_series">{{ series.nama }}</span></h2>
+            <h2>Judul: <span id="judul_series">{{ series.judul }}</span></h2>
             <p>Episode:</p>
             <ul id="episode">
-                <li><a href="#">[Link Episode 1]</a></li>
-                <!-- Tambahkan elemen li untuk setiap episode -->
+                {% for e in series.episode %}
+                <li><a href="/series/episode/{{ e.judul }}">{{ e.judul }}</a></li>
+                {% endfor %}
             </ul>
             <button class="btn btn-success" id="btn_unduh">Unduh Tayangan</button>
             <button class="btn btn-warning" id="btn_favorit">Favorit</button>
-            <p>Total View: <span id="total_view">[Jumlah View]</span></p>
+            <p>Total View: <span id="total_view">{{ series.total_viewers }}</span></p>
             <p>Rating Rata-Rata: <span id="rating">{{ series.rating_avg }}</span></p>
             <p>Sinopsis: <span id="sinopsis">{{ series.sinopsis }}</span></p>
             <p>Genre:</p>

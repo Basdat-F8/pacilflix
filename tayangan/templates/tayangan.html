@@ -2,12 +2,14 @@
 {% load static %}
 {% block content %}
     <div class="container-box">
-        <h1 class="mt-4 mb-4">Top 10 Minggu Ini</h1>
+        <form method="GET" action="{% url 'tayangan:pencarian_tayangan' %}">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
-        <div class="filter-btn">
-            <button class="btn btn-secondary" id="globalTop10Button">Global</button>
-            <button class="btn btn-outline-secondary" id="userCountryTop10Button">[Negara Pengguna]</button>
-        </div>
+    <div class="container-box">
+        <h1 class="mt-4 mb-4">Top 10 Minggu Ini</h1>
 
         <div class="row">
             <div class="col">
@@ -33,30 +35,36 @@
             </div>
         </div>
 
+        {% for top in top_ten %}
         <!-- Contoh Data -->
         <div class="row">
             <div class="col">
-                <p>1</p>
+                <p>{{ forloop.counter }}</p> 
             </div>
             <div class="col">
-                <p>Data Judul</p>
+                <p>{{ top.judul }}</p>
             </div>
             <div class="col">
-                <p>Data Sinopsis</p>
+                <p>{{ top.sinopsis }}</p>
             </div>
             <div class="col">
-                <p><a href="#">URL Trailer</a></p>
+                <p><a href="#">{{ top.url_video_trailer }}</a></p>
             </div>
             <div class="col">
-                <p>Data Tanggal Rilis</p>
+                <p>{{ top.release_date_trailer}}</p>
             </div>
             <div class="col">
-                <p>Jumlah Views</p>
+                <p>{{ top.jumlah_view }}</p>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-secondary">Halaman Tayangan</a>
+                {% if top.type == 'film' %}
+                <a href="/film/{{ top.id_tayangan }}" class="btn btn-secondary">Halaman Tayangan</a>
+                {% else %}
+                <a href="/series/{{ top.id_tayangan }}" class="btn btn-secondary">Halaman Tayangan</a>
+                {% endif %}
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- Film -->

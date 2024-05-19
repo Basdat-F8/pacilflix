@@ -8,7 +8,7 @@ urlpatterns = [
     path('tayangan/', tayangan, name='tayangan'),
     path('film/<uuid:id_film>', halaman_film, name='film'),
     path('series/<uuid:id_series>', halaman_series, name='series'),
-    path('series/episode/', halaman_episode, name='episode'),
-    path('trailer/query/', pencarian_trailer, name='pencarian_trailer'),
-    path('tayangan/query/', pencarian_tayangan, name='pencarian_tayangan'),
+    path('series/episode/<str:sub_judul>', halaman_episode, name='episode'),
+    path('trailer/search/', pencarian_trailer, name='pencarian_trailer'),
+    path('tayangan/search/', pencarian_tayangan, name='pencarian_tayangan'),
 ]
